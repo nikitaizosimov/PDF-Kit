@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "pdf-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nikitaizosimov/PDF-Kit",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8f6723242d9033704cc0df1e6c1ec0d0022bc197"
+      }
+    }
+  ],
+  "version" : 2
+}
