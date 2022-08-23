@@ -62,13 +62,13 @@ public class PDFController: UIViewController {
 //        self.title = titleText
         
         //self.handleSearchViewState()
-        self.load(from: fileUrl)
+        //self.load(from: fileUrl)
     }
     
     public func load(from fileUrl: URL?) {
         guard let fileUrl = fileUrl else { return }
         
-        self.fileUrl = fileUrl
+        //self.fileUrl = fileUrl
         
         self.openPDFDocument(from: fileUrl)
     }
