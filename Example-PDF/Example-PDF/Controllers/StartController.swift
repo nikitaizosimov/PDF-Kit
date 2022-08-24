@@ -20,9 +20,11 @@ class StartController: UIViewController {
     
     @objc
     private func addTapped() {
+        guard let path = Bundle.main.path(forResource: "sample", ofType: "pdf") else { return }
+        
         let controller = PDFController()
         
-        controller.view.backgroundColor = .black
+        controller.fileUrl = URL(fileURLWithPath: path)
         
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -13,7 +13,7 @@ public class PDFController: UIViewController {
 //
 //    public var titleText: String?
 //
-//    public var fileUrl: URL?
+    public var fileUrl: URL?
     
 //    public let open = Delegate<Void, Void>()
     
@@ -32,8 +32,6 @@ public class PDFController: UIViewController {
     
     private lazy var pdfView: PDFView = {
         let view = PDFView()
-        
-        view.backgroundColor = .white
         
         return view
     }()
@@ -57,46 +55,42 @@ public class PDFController: UIViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setupViews()
-        
+        setupViews()
+        load()
 //        self.title = titleText
         
         //self.handleSearchViewState()
-        //self.load(from: fileUrl)
     }
     
-    public func load(from fileUrl: URL?) {
+    public func load() {
         guard let fileUrl = fileUrl else { return }
-        
         //self.fileUrl = fileUrl
         
-        self.openPDFDocument(from: fileUrl)
+        openPDFDocument(from: fileUrl)
     }
     
     private func setupViews() {
-        self.view.addSubview(self.pdfView)
-        //self.view.addSubview(self.searchView)
+        view.backgroundColor = .white
         
-//        self.searchView.layout.all.except(.bottom).equal(to: self.view.layout.safe)
-//        self.heightConstraint = self.searchView.layout.height.equal(to: 0)
-        
-//        self.pdfView.layout.top.equal(to: self.view.layout.safe)
-//        self.pdfView.layout.all.except(.top).equal(to: self.view.layout)
+        view.addSubview(pdfView)
+        pdfView.translatesAutoresizingMaskIntoConstraints = false
+        [pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+         pdfView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+         pdfView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+         pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)].forEach { $0.isActive = true }
     }
     
     private func openPDFDocument(from fileUrl: URL) {
-        //self.view.hideActivityIndicator()
-        
-        self.pdfDocument = PDFDocument(url: fileUrl)
-        
-        self.pdfView.document = self.pdfDocument
-        self.pdfView.document?.delegate = self
-        self.pdfView.displayMode = .singlePageContinuous
-        self.pdfView.autoScales = true
-        
+        pdfDocument = PDFDocument(url: fileUrl)
+        pdfView.document = pdfDocument
+        pdfView.document?.delegate = self
+        pdfView.displayMode = .singlePageContinuous
+        pdfView.autoScales = true
+
         // Hotfix
         DispatchQueue.main.async {
             guard let firstPage = self.pdfView.document?.page(at: 0) else { return }
+            
             self.pdfView.go(to: CGRect(x: 0, y: Int.max, width: 0, height: 0), on: firstPage)
         }
     }
