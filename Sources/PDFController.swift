@@ -8,25 +8,11 @@ import UIKit
 import PDFKit
 
 public class PDFController: UIViewController {
-//    public static let fileType = "pdf"
-//    public static let extenshionFileType = ".pdf"
-//
-//    public var titleText: String?
-//
+    
+    public var titleText: String?
     public var fileUrl: URL?
     
-//    public let open = Delegate<Void, Void>()
-    
     private var pdfDocument: PDFDocument?
-//    private var heightConstraint: NSLayoutConstraint?
-    
-//    private var searchResults = [PDFSelection]()
-//
-//    private var isOpenSearchView = false {
-//        didSet {
-//            self.handleSearchViewState()
-//        }
-//    }
     
     private var currentIndex = 0
     
@@ -36,35 +22,15 @@ public class PDFController: UIViewController {
         return view
     }()
     
-//    private lazy var searchView: PDFSearchView = {
-//        let view = PDFSearchView()
-//
-//        view.addBottomSeparator()
-//
-//        view.searchText.delegate(to: self) { `self`, text in
-//            self.performSearch(text: text)
-//        }
-//
-//        view.tapArrow.delegate(to: self) { `self`, direction in
-//            self.goByArrow(to: direction)
-//        }
-//
-//        return view
-//    }()
-    
     override open func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         load()
-//        self.title = titleText
-        
-        //self.handleSearchViewState()
     }
     
     public func load() {
         guard let fileUrl = fileUrl else { return }
-        //self.fileUrl = fileUrl
         
         openPDFDocument(from: fileUrl)
     }
