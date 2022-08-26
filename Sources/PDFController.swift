@@ -52,8 +52,11 @@ public class PDFController: UIViewController {
         pdfView.document?.delegate = self
         pdfView.displayMode = .singlePageContinuous
         pdfView.autoScales = true
-
-        // Hotfix
+        
+        self.scrollPDFViewToTop()
+    }
+    
+    private func scrollPDFViewToTop() {
         DispatchQueue.main.async {
             guard let firstPage = self.pdfView.document?.page(at: 0) else { return }
             
