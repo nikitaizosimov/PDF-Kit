@@ -57,8 +57,9 @@ public class PDFController: UIViewController {
     }
     
     private func scrollPDFViewToTop() {
-        DispatchQueue.main.async {
-            guard let firstPage = self.pdfView.document?.page(at: 0) else { return }
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let firstPage = self.pdfView.document?.page(at: 0) else { return }
             
             self.pdfView.go(to: CGRect(x: 0, y: Int.max, width: 0, height: 0), on: firstPage)
         }
