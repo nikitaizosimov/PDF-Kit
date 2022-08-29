@@ -14,11 +14,14 @@ let package = Package(
             targets: ["PDF-Kit"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1"))
     ],
     targets: [
         .target(
             name: "PDF-Kit",
-            dependencies: [],
+            dependencies: [
+                .product(name: "SnapKit", package: "SnapKit")
+            ],
             path: "Sources"
         ),
         .testTarget(
