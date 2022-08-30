@@ -4,8 +4,9 @@
 //  Created by Nikita Izosimov on 21.08.2022.
 //
 
-import UIKit
 import PDFKit
+import SnapKit
+import UIKit
 
 public class PDFController: UIViewController {
     
@@ -39,11 +40,7 @@ public class PDFController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(pdfView)
-        pdfView.translatesAutoresizingMaskIntoConstraints = false
-        [pdfView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-         pdfView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-         pdfView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-         pdfView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)].forEach { $0.isActive = true }
+        pdfView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
     }
     
     private func openPDFDocument(from fileUrl: URL) {
