@@ -23,6 +23,12 @@ public class PDFController: UIViewController {
         return view
     }()
     
+    private lazy var searchView: PDFSearchView = {
+        let view = PDFSearchView()
+        
+        return view
+    }()
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
         
