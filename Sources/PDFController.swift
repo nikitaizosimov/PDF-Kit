@@ -17,6 +17,8 @@ public class PDFController: UIViewController {
     
     private var currentIndex = 0
     
+    private var searchViewHeightConstraint: Constraint?
+    
     private lazy var pdfView: PDFView = {
         let view = PDFView()
         
@@ -45,8 +47,18 @@ public class PDFController: UIViewController {
     private func setupViews() {
         view.backgroundColor = .white
         
+        view.addSubview(searchView)
+        searchView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview()
+            searchViewHeightConstraint = make.height.equalTo(60).constraint
+        }
+        
         view.addSubview(pdfView)
-        pdfView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        pdfView.snp.makeConstraints { make in
+            make.top.equalTo(searchView.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
     }
     
     private func openPDFDocument(from fileUrl: URL) {
