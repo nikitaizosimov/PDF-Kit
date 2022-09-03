@@ -18,6 +18,11 @@ public class PDFController: UIViewController {
     private var currentIndex = 0
     
     private var searchViewHeightConstraint: Constraint?
+    private var isSeachNow = false {
+        didSet {
+            setupRightButtons()
+        }
+    }
     
     private lazy var pdfView: PDFView = {
         let view = PDFView()
@@ -27,6 +32,33 @@ public class PDFController: UIViewController {
     
     private lazy var searchView: PDFSearchView = {
         let view = PDFSearchView()
+        
+        return view
+    }()
+    
+    private lazy var searchBarButton: UIBarButtonItem = {
+       let view = UIBarButtonItem()
+        
+        view.image = Images.search
+        view.action = #selector(openSearch)
+        
+        return view
+    }()
+    
+    private lazy var moreBarButton: UIBarButtonItem = {
+       let view = UIBarButtonItem()
+        
+        view.image = Images.more
+        view.action = #selector(openMore)
+        
+        return view
+    }()
+    
+    private lazy var closeBarButton: UIBarButtonItem = {
+       let view = UIBarButtonItem()
+        
+        view.image = Images.close
+        view.action = #selector(closeSearch)
         
         return view
     }()
@@ -51,7 +83,7 @@ public class PDFController: UIViewController {
         searchView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()
-            searchViewHeightConstraint = make.height.equalTo(60).constraint
+            searchViewHeightConstraint = make.height.equalTo(0).constraint
         }
         
         view.addSubview(pdfView)
@@ -59,25 +91,54 @@ public class PDFController: UIViewController {
             make.top.equalTo(searchView.snp.bottom)
             make.leading.trailing.bottom.equalToSuperview()
         }
+        
+        navigationItem.title = title
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: Images.back,
+                                                           style: .done,
+                                                           target: self,
+                                                           action: #selector(close))
+        setupRightButtons()
     }
+    
+    private func setupRightButtons() {
+        navigationItem.rightBarButtonItems = isSeachNow ? [closeBarButton] : [searchBarButton, moreBarButton]
+    }
+    
+    @objc
+    private func close() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func openSearch() {
+        searchViewHeightConstraint?.update(offset: 60)
+        isSeachNow = true
+    }
+    
+    @objc
+    private func closeSearch() {
+        searchViewHeightConstraint?.update(offset: 0)
+        isSeachNow = false
+    }
+    
+    @objc
+    private func openMore() {
+        guard let fileUrl = fileUrl else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            let activityController = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
+            self?.present(activityController, animated: true)
+        }
+    }
+    
     
     private func openPDFDocument(from fileUrl: URL) {
         pdfDocument = PDFDocument(url: fileUrl)
         pdfView.document = pdfDocument
+        
         pdfView.document?.delegate = self
         pdfView.displayMode = .singlePageContinuous
         pdfView.autoScales = true
-        
-        self.scrollPDFViewToTop()
-    }
-    
-    private func scrollPDFViewToTop() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self,
-                  let firstPage = self.pdfView.document?.page(at: 0) else { return }
-            
-            self.pdfView.go(to: CGRect(x: 0, y: Int.max, width: 0, height: 0), on: firstPage)
-        }
     }
     
 //    private func handleSearchViewState() {

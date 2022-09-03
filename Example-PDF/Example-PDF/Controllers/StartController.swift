@@ -24,6 +24,8 @@ class StartController: UIViewController {
         
         let controller = PDFController()
         
+        controller.title = "Sample Document"
+        
         controller.fileUrl = URL(fileURLWithPath: path)
         
         navigationController?.pushViewController(controller, animated: true)
