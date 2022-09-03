@@ -15,7 +15,7 @@ class StartController: UIViewController {
         
         view.backgroundColor = .white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "open PDF", style: .plain, target: self, action: #selector(addTapped))
     }
     
     @objc

@@ -22,7 +22,10 @@ let package = Package(
             dependencies: [
                 .product(name: "SnapKit", package: "SnapKit")
             ],
-            path: "Sources"
+            path: "Sources",
+            resources: [
+                .process("Assets"),
+            ]
         ),
         .testTarget(
             name: "PDF-KitTests",
